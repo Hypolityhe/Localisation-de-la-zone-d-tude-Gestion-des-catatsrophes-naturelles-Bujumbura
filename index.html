@@ -11,7 +11,6 @@
         <link rel="stylesheet" href="css/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
@@ -22,7 +21,7 @@
             margin: 0;
         }
         </style>
-        <title>Situation géographique de la zone d'étude</title>
+        <title>Hydrographie et topographie de la zone</title>
     </head>
     <body>
         <div id="map">
@@ -40,34 +39,21 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="js/leaflet-search.js"></script>
-        <script src="data/TANGANYIKABURUNDI_0.js"></script>
-        <script src="data/TANGANYIKABujumbura_2.js"></script>
-        <script src="data/ReservedelaRUSIZI_3.js"></script>
-        <script src="data/PROV_BURUNDI_4.js"></script>
-        <script src="data/BURUNDI_LACS_5.js"></script>
-        <script src="data/Tendancedextensionspontane_6.js"></script>
-        <script src="data/LimitesofficiellesdeBujumbura_7.js"></script>
+        <script src="data/TANGANYIKABujumbura_1.js"></script>
+        <script src="data/Tendancedexpansionspontane_2.js"></script>
+        <script src="data/LimitesofficiellesdeBujumbura_3.js"></script>
+        <script src="data/Courbedeniveau_4.js"></script>
+        <script src="data/Waterways_5.js"></script>
+        <script src="data/FrontireTANGANYIKA_6.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
-
-            if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
-              highlightLayer.setStyle({
-                color: '#ffff00',
-              });
-            } else {
-              highlightLayer.setStyle({
-                fillColor: '#ffff00',
-                fillOpacity: 1
-              });
-            }
             highlightLayer.openPopup();
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[-4.577757828799463,28.62905460991923],[-2.2913715388583777,32.78597924176415]]);
+        }).fitBounds([[-3.6174570870467373,29.037343594224758],[-3.1856615124791747,29.823267200805567]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -139,7 +125,7 @@
             return this._div;
         };
         title.update = function () {
-            this._div.innerHTML = '<h2>Situation géographique de la zone d\'étude</h2>';
+            this._div.innerHTML = '<h2>Hydrographie et topographie de la zone</h2>';
         };
         title.addTo(map);
         var abstract = new L.Control({'position':'topright'});
@@ -160,7 +146,7 @@
             abstract.show = function () {
                 this._div.classList.remove("abstract");
                 this._div.classList.add("abstractUncollapsed");
-                this._div.innerHTML = 'La zone d’étude couvre la région de Bujumbura et ses environs. Elle s’étend depuis la plaine littorale du lac Tanganyika jusqu’aux versants des hautes collines situées à l’est. Sur le plan topographique, la zone se caractérise par un gradient altitudinal marqué : les courbes de niveau se resserrent fortement sur les flancs de collines, traduisant des pentes abruptes et un relief accidenté. Cette configuration favorise le ruissellement intense des eaux de pluie vers la plaine alluviale, où se concentrent les zones d’habitation et d’activités économiques. Sur le plan hydrologique, la région est drainée par un réseau dense de cours d’eau, notamment la rivière Rusizi et plusieurs rivières secondaires se jetant dans le lac Tanganyika. Ces conditions naturelles, combinées à une urbanisation rapide et non planifiée, rendent la zone particulièrement vulnérable aux inondations, à l’érosion des sols et aux glissements de terrain, surtout pendant les saisons pluvieuses. ';
+                this._div.innerHTML = 'La zone présente une forte vulnérabilité aux catastrophes naturelles en raison du resserrement des courbes de niveau à l’est, traduisant des pentes abruptes qui favorisent un ruissellement rapide et érosif vers le lac Tanganyika. Les rivières (Muha, Ntahangwa, Nyabagere, Kinyankonge, Kanyosha, etc.) concentrent les eaux vers les plaines basses inondables de l’ouest, où l’urbanisation non planifiée accentue les risques d’érosion, de glissements de terrain et d’inondations. L’absence de systèmes efficaces de drainage et la déforestation des versants aggravent la déstabilisation des sols et l’ensablement des lits des rivières. Ainsi, la combinaison du relief accidenté, du réseau hydrographique dense et de la pression humaine croissante rend cette zone particulièrement exposée aux aléas hydrométéorologiques.';
         };
         abstract.addTo(map);
         var zoomControl = L.control.zoom({
@@ -180,95 +166,22 @@
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        function pop_TANGANYIKABURUNDI_0(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['osm_id'] !== null ? autolinker.link(String(feature.properties['osm_id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['code'] !== null ? autolinker.link(String(feature.properties['code']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['fclass'] !== null ? autolinker.link(String(feature.properties['fclass']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_TANGANYIKABURUNDI_0_0() {
-            return {
-                pane: 'pane_TANGANYIKABURUNDI_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(166,206,227,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_TANGANYIKABURUNDI_0');
-        map.getPane('pane_TANGANYIKABURUNDI_0').style.zIndex = 400;
-        map.getPane('pane_TANGANYIKABURUNDI_0').style['mix-blend-mode'] = 'normal';
-        var layer_TANGANYIKABURUNDI_0 = new L.geoJson(json_TANGANYIKABURUNDI_0, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_TANGANYIKABURUNDI_0',
-            layerName: 'layer_TANGANYIKABURUNDI_0',
-            pane: 'pane_TANGANYIKABURUNDI_0',
-            onEachFeature: pop_TANGANYIKABURUNDI_0,
-            style: style_TANGANYIKABURUNDI_0_0,
-        });
-        bounds_group.addLayer(layer_TANGANYIKABURUNDI_0);
-        map.addLayer(layer_TANGANYIKABURUNDI_0);
-        map.createPane('pane_OSMStandard_1');
-        map.getPane('pane_OSMStandard_1').style.zIndex = 401;
-        var layer_OSMStandard_1 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            pane: 'pane_OSMStandard_1',
+        map.createPane('pane_ESRITopo_0');
+        map.getPane('pane_ESRITopo_0').style.zIndex = 400;
+        var layer_ESRITopo_0 = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_ESRITopo_0',
             opacity: 1.0,
-            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            attribution: '',
             minZoom: 1,
             maxZoom: 28,
             minNativeZoom: 0,
-            maxNativeZoom: 19
+            maxNativeZoom: 20
         });
-        layer_OSMStandard_1;
-        map.addLayer(layer_OSMStandard_1);
-        function pop_TANGANYIKABujumbura_2(feature, layer) {
+        layer_ESRITopo_0;
+        map.addLayer(layer_ESRITopo_0);
+        function pop_TANGANYIKABujumbura_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -287,7 +200,7 @@
                         <td colspan="2">' + (feature.properties['osm_way_id'] !== null ? autolinker.link(String(feature.properties['osm_way_id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['type'] !== null ? autolinker.link(String(feature.properties['type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -363,9 +276,9 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_TANGANYIKABujumbura_2_0() {
+        function style_TANGANYIKABujumbura_1_0() {
             return {
-                pane: 'pane_TANGANYIKABujumbura_2',
+                pane: 'pane_TANGANYIKABujumbura_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -374,32 +287,364 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(31,120,180,0.8666666666666667)',
+                fillColor: 'rgba(166,206,227,1.0)',
                 interactive: true,
             }
         }
-        map.createPane('pane_TANGANYIKABujumbura_2');
-        map.getPane('pane_TANGANYIKABujumbura_2').style.zIndex = 402;
-        map.getPane('pane_TANGANYIKABujumbura_2').style['mix-blend-mode'] = 'normal';
-        var layer_TANGANYIKABujumbura_2 = new L.geoJson(json_TANGANYIKABujumbura_2, {
+        map.createPane('pane_TANGANYIKABujumbura_1');
+        map.getPane('pane_TANGANYIKABujumbura_1').style.zIndex = 401;
+        map.getPane('pane_TANGANYIKABujumbura_1').style['mix-blend-mode'] = 'normal';
+        var layer_TANGANYIKABujumbura_1 = new L.geoJson(json_TANGANYIKABujumbura_1, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_TANGANYIKABujumbura_2',
-            layerName: 'layer_TANGANYIKABujumbura_2',
-            pane: 'pane_TANGANYIKABujumbura_2',
-            onEachFeature: pop_TANGANYIKABujumbura_2,
-            style: style_TANGANYIKABujumbura_2_0,
+            dataVar: 'json_TANGANYIKABujumbura_1',
+            layerName: 'layer_TANGANYIKABujumbura_1',
+            pane: 'pane_TANGANYIKABujumbura_1',
+            onEachFeature: pop_TANGANYIKABujumbura_1,
+            style: style_TANGANYIKABujumbura_1_0,
         });
-        bounds_group.addLayer(layer_TANGANYIKABujumbura_2);
-        map.addLayer(layer_TANGANYIKABujumbura_2);
-        function pop_ReservedelaRUSIZI_3(feature, layer) {
+        bounds_group.addLayer(layer_TANGANYIKABujumbura_1);
+        map.addLayer(layer_TANGANYIKABujumbura_1);
+        function pop_Tendancedexpansionspontane_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
                     }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAP ZONE'] !== null ? autolinker.link(String(feature.properties['SHAP ZONE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(String(feature.properties['OBJECTID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Name'] !== null ? autolinker.link(String(feature.properties['admin0Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Pcod'] !== null ? autolinker.link(String(feature.properties['admin0Pcod']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['date'] !== null ? autolinker.link(String(feature.properties['date']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['validOn'] !== null ? autolinker.link(String(feature.properties['validOn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ValidTo'] !== null ? autolinker.link(String(feature.properties['ValidTo']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Communes'] !== null ? autolinker.link(String(feature.properties['Communes']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PCOD'] !== null ? autolinker.link(String(feature.properties['Admin2PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PC_1'] !== null ? autolinker.link(String(feature.properties['Admin2PC_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Provinces'] !== null ? autolinker.link(String(feature.properties['Provinces']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin1PCOD'] !== null ? autolinker.link(String(feature.properties['Admin1PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(String(feature.properties['Shape_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['osm_id'] !== null ? autolinker.link(String(feature.properties['osm_id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['code'] !== null ? autolinker.link(String(feature.properties['code']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fclass'] !== null ? autolinker.link(String(feature.properties['fclass']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID_2'] !== null ? autolinker.link(String(feature.properties['OBJECTID_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Na_1'] !== null ? autolinker.link(String(feature.properties['admin0Na_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Pc_1'] !== null ? autolinker.link(String(feature.properties['admin0Pc_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['date_2'] !== null ? autolinker.link(String(feature.properties['date_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['validOn_2'] !== null ? autolinker.link(String(feature.properties['validOn_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ValidTo_2'] !== null ? autolinker.link(String(feature.properties['ValidTo_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Communes_2'] !== null ? autolinker.link(String(feature.properties['Communes_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PC_2'] !== null ? autolinker.link(String(feature.properties['Admin2PC_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PC_3'] !== null ? autolinker.link(String(feature.properties['Admin2PC_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Provinces_'] !== null ? autolinker.link(String(feature.properties['Provinces_']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin1PC_1'] !== null ? autolinker.link(String(feature.properties['Admin1PC_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Le_1'] !== null ? autolinker.link(String(feature.properties['Shape_Le_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Ar_1'] !== null ? autolinker.link(String(feature.properties['Shape_Ar_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['date_2_2'] !== null ? autolinker.link(String(feature.properties['date_2_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID_3'] !== null ? autolinker.link(String(feature.properties['OBJECTID_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Na_2'] !== null ? autolinker.link(String(feature.properties['admin0Na_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Pc_2'] !== null ? autolinker.link(String(feature.properties['admin0Pc_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['date_3'] !== null ? autolinker.link(String(feature.properties['date_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['validOn_3'] !== null ? autolinker.link(String(feature.properties['validOn_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ValidTo_3'] !== null ? autolinker.link(String(feature.properties['ValidTo_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Communes_3'] !== null ? autolinker.link(String(feature.properties['Communes_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PC_4'] !== null ? autolinker.link(String(feature.properties['Admin2PC_4']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PC_5'] !== null ? autolinker.link(String(feature.properties['Admin2PC_5']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Province_1'] !== null ? autolinker.link(String(feature.properties['Province_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin1PC_2'] !== null ? autolinker.link(String(feature.properties['Admin1PC_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Le_2'] !== null ? autolinker.link(String(feature.properties['Shape_Le_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Ar_2'] !== null ? autolinker.link(String(feature.properties['Shape_Ar_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Tendancedexpansionspontane_2_0() {
+            return {
+                pane: 'pane_Tendancedexpansionspontane_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Tendancedexpansionspontane_2');
+        map.getPane('pane_Tendancedexpansionspontane_2').style.zIndex = 402;
+        map.getPane('pane_Tendancedexpansionspontane_2').style['mix-blend-mode'] = 'normal';
+        var layer_Tendancedexpansionspontane_2 = new L.geoJson(json_Tendancedexpansionspontane_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Tendancedexpansionspontane_2',
+            layerName: 'layer_Tendancedexpansionspontane_2',
+            pane: 'pane_Tendancedexpansionspontane_2',
+            onEachFeature: pop_Tendancedexpansionspontane_2,
+            style: style_Tendancedexpansionspontane_2_0,
+        });
+        bounds_group.addLayer(layer_Tendancedexpansionspontane_2);
+        map.addLayer(layer_Tendancedexpansionspontane_2);
+        function pop_LimitesofficiellesdeBujumbura_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(String(feature.properties['OBJECTID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>admin0Name</strong><br />' + (feature.properties['admin0Name'] !== null ? autolinker.link(String(feature.properties['admin0Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['admin0Pcod'] !== null ? autolinker.link(String(feature.properties['admin0Pcod']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['date'] !== null ? autolinker.link(String(feature.properties['date']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['validOn'] !== null ? autolinker.link(String(feature.properties['validOn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ValidTo'] !== null ? autolinker.link(String(feature.properties['ValidTo']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Communes</strong><br />' + (feature.properties['Communes'] !== null ? autolinker.link(String(feature.properties['Communes']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PCOD'] !== null ? autolinker.link(String(feature.properties['Admin2PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin2PC_1'] !== null ? autolinker.link(String(feature.properties['Admin2PC_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Provinces'] !== null ? autolinker.link(String(feature.properties['Provinces']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Admin1PCOD'] !== null ? autolinker.link(String(feature.properties['Admin1PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(String(feature.properties['Shape_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_LimitesofficiellesdeBujumbura_3_0() {
+            return {
+                pane: 'pane_LimitesofficiellesdeBujumbura_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,221,19,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_LimitesofficiellesdeBujumbura_3');
+        map.getPane('pane_LimitesofficiellesdeBujumbura_3').style.zIndex = 403;
+        map.getPane('pane_LimitesofficiellesdeBujumbura_3').style['mix-blend-mode'] = 'normal';
+        var layer_LimitesofficiellesdeBujumbura_3 = new L.geoJson(json_LimitesofficiellesdeBujumbura_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LimitesofficiellesdeBujumbura_3',
+            layerName: 'layer_LimitesofficiellesdeBujumbura_3',
+            pane: 'pane_LimitesofficiellesdeBujumbura_3',
+            onEachFeature: pop_LimitesofficiellesdeBujumbura_3,
+            style: style_LimitesofficiellesdeBujumbura_3_0,
+        });
+        bounds_group.addLayer(layer_LimitesofficiellesdeBujumbura_3);
+        map.addLayer(layer_LimitesofficiellesdeBujumbura_3);
+        function pop_Courbedeniveau_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(String(feature.properties['ID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>ELEV</strong><br />' + (feature.properties['ELEV'] !== null ? autolinker.link(String(feature.properties['ELEV']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_Courbedeniveau_4_0() {
+            return {
+                pane: 'pane_Courbedeniveau_4',
+                opacity: 1,
+                color: 'rgba(152,125,183,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Courbedeniveau_4');
+        map.getPane('pane_Courbedeniveau_4').style.zIndex = 404;
+        map.getPane('pane_Courbedeniveau_4').style['mix-blend-mode'] = 'normal';
+        var layer_Courbedeniveau_4 = new L.geoJson(json_Courbedeniveau_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Courbedeniveau_4',
+            layerName: 'layer_Courbedeniveau_4',
+            pane: 'pane_Courbedeniveau_4',
+            onEachFeature: pop_Courbedeniveau_4,
+            style: style_Courbedeniveau_4_0,
+        });
+        bounds_group.addLayer(layer_Courbedeniveau_4);
+        map.addLayer(layer_Courbedeniveau_4);
+        function pop_Waterways_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -418,11 +663,13 @@
                         <td colspan="2">' + (feature.properties['code'] !== null ? autolinker.link(String(feature.properties['code']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">fclass</th>\
-                        <td>' + (feature.properties['fclass'] !== null ? autolinker.link(String(feature.properties['fclass']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['fclass'] !== null ? autolinker.link(String(feature.properties['fclass']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td class="visible-with-data" id="name" colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['width'] !== null ? autolinker.link(String(feature.properties['width']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>name</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -432,43 +679,36 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_ReservedelaRUSIZI_3_0() {
+        function style_Waterways_5_0() {
             return {
-                pane: 'pane_ReservedelaRUSIZI_3',
+                pane: 'pane_Waterways_5',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(0,117,0,1.0)',
                 dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(190,207,80,1.0)',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
                 interactive: true,
             }
         }
-        map.createPane('pane_ReservedelaRUSIZI_3');
-        map.getPane('pane_ReservedelaRUSIZI_3').style.zIndex = 403;
-        map.getPane('pane_ReservedelaRUSIZI_3').style['mix-blend-mode'] = 'normal';
-        var layer_ReservedelaRUSIZI_3 = new L.geoJson(json_ReservedelaRUSIZI_3, {
+        map.createPane('pane_Waterways_5');
+        map.getPane('pane_Waterways_5').style.zIndex = 405;
+        map.getPane('pane_Waterways_5').style['mix-blend-mode'] = 'normal';
+        var layer_Waterways_5 = new L.geoJson(json_Waterways_5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_ReservedelaRUSIZI_3',
-            layerName: 'layer_ReservedelaRUSIZI_3',
-            pane: 'pane_ReservedelaRUSIZI_3',
-            onEachFeature: pop_ReservedelaRUSIZI_3,
-            style: style_ReservedelaRUSIZI_3_0,
+            dataVar: 'json_Waterways_5',
+            layerName: 'layer_Waterways_5',
+            pane: 'pane_Waterways_5',
+            onEachFeature: pop_Waterways_5,
+            style: style_Waterways_5_0,
         });
-        bounds_group.addLayer(layer_ReservedelaRUSIZI_3);
-        map.addLayer(layer_ReservedelaRUSIZI_3);
-        function pop_PROV_BURUNDI_4(feature, layer) {
+        bounds_group.addLayer(layer_Waterways_5);
+        map.addLayer(layer_Waterways_5);
+        function pop_FrontireTANGANYIKA_6(feature, layer) {
             layer.on({
                 mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
                     if (typeof layer.closePopup == 'function') {
                         layer.closePopup();
                     } else {
@@ -481,19 +721,10 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['PROVINCES'] !== null ? autolinker.link(String(feature.properties['PROVINCES']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['CODPROVINC'] !== null ? autolinker.link(String(feature.properties['CODPROVINC']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(String(feature.properties['Shape_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Le_1'] !== null ? autolinker.link(String(feature.properties['Shape_Le_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nom</strong><br />' + (feature.properties['Nom'] !== null ? autolinker.link(String(feature.properties['Nom']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -503,299 +734,41 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_PROV_BURUNDI_4_0() {
+        function style_FrontireTANGANYIKA_6_0() {
             return {
-                pane: 'pane_PROV_BURUNDI_4',
+                pane: 'pane_FrontireTANGANYIKA_6',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(243,166,178,1.0)',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
                 interactive: true,
             }
         }
-        map.createPane('pane_PROV_BURUNDI_4');
-        map.getPane('pane_PROV_BURUNDI_4').style.zIndex = 404;
-        map.getPane('pane_PROV_BURUNDI_4').style['mix-blend-mode'] = 'normal';
-        var layer_PROV_BURUNDI_4 = new L.geoJson(json_PROV_BURUNDI_4, {
+        map.createPane('pane_FrontireTANGANYIKA_6');
+        map.getPane('pane_FrontireTANGANYIKA_6').style.zIndex = 406;
+        map.getPane('pane_FrontireTANGANYIKA_6').style['mix-blend-mode'] = 'normal';
+        var layer_FrontireTANGANYIKA_6 = new L.geoJson(json_FrontireTANGANYIKA_6, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_PROV_BURUNDI_4',
-            layerName: 'layer_PROV_BURUNDI_4',
-            pane: 'pane_PROV_BURUNDI_4',
-            onEachFeature: pop_PROV_BURUNDI_4,
-            style: style_PROV_BURUNDI_4_0,
+            dataVar: 'json_FrontireTANGANYIKA_6',
+            layerName: 'layer_FrontireTANGANYIKA_6',
+            pane: 'pane_FrontireTANGANYIKA_6',
+            onEachFeature: pop_FrontireTANGANYIKA_6,
+            style: style_FrontireTANGANYIKA_6_0,
         });
-        bounds_group.addLayer(layer_PROV_BURUNDI_4);
-        map.addLayer(layer_PROV_BURUNDI_4);
-        function pop_BURUNDI_LACS_5(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Le_1'] !== null ? autolinker.link(String(feature.properties['Shape_Le_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>NAME</strong><br />' + (feature.properties['NAME'] !== null ? autolinker.link(String(feature.properties['NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_BURUNDI_LACS_5_0() {
-            return {
-                pane: 'pane_BURUNDI_LACS_5',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(166,206,227,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_BURUNDI_LACS_5');
-        map.getPane('pane_BURUNDI_LACS_5').style.zIndex = 405;
-        map.getPane('pane_BURUNDI_LACS_5').style['mix-blend-mode'] = 'normal';
-        var layer_BURUNDI_LACS_5 = new L.geoJson(json_BURUNDI_LACS_5, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_BURUNDI_LACS_5',
-            layerName: 'layer_BURUNDI_LACS_5',
-            pane: 'pane_BURUNDI_LACS_5',
-            onEachFeature: pop_BURUNDI_LACS_5,
-            style: style_BURUNDI_LACS_5_0,
-        });
-        bounds_group.addLayer(layer_BURUNDI_LACS_5);
-        map.addLayer(layer_BURUNDI_LACS_5);
-        function pop_Tendancedextensionspontane_6(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(String(feature.properties['OBJECTID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>admin0Name</strong><br />' + (feature.properties['admin0Name'] !== null ? autolinker.link(String(feature.properties['admin0Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['admin0Pcod'] !== null ? autolinker.link(String(feature.properties['admin0Pcod']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['date'] !== null ? autolinker.link(String(feature.properties['date']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['validOn'] !== null ? autolinker.link(String(feature.properties['validOn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ValidTo'] !== null ? autolinker.link(String(feature.properties['ValidTo']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>Communes</strong><br />' + (feature.properties['Communes'] !== null ? autolinker.link(String(feature.properties['Communes']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Admin2PCOD'] !== null ? autolinker.link(String(feature.properties['Admin2PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Admin2PC_1'] !== null ? autolinker.link(String(feature.properties['Admin2PC_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>Provinces</strong><br />' + (feature.properties['Provinces'] !== null ? autolinker.link(String(feature.properties['Provinces']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Admin1PCOD'] !== null ? autolinker.link(String(feature.properties['Admin1PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(String(feature.properties['Shape_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_Tendancedextensionspontane_6_0() {
-            return {
-                pane: 'pane_Tendancedextensionspontane_6',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(253,191,111,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_Tendancedextensionspontane_6');
-        map.getPane('pane_Tendancedextensionspontane_6').style.zIndex = 406;
-        map.getPane('pane_Tendancedextensionspontane_6').style['mix-blend-mode'] = 'normal';
-        var layer_Tendancedextensionspontane_6 = new L.geoJson(json_Tendancedextensionspontane_6, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_Tendancedextensionspontane_6',
-            layerName: 'layer_Tendancedextensionspontane_6',
-            pane: 'pane_Tendancedextensionspontane_6',
-            onEachFeature: pop_Tendancedextensionspontane_6,
-            style: style_Tendancedextensionspontane_6_0,
-        });
-        bounds_group.addLayer(layer_Tendancedextensionspontane_6);
-        map.addLayer(layer_Tendancedextensionspontane_6);
-        function pop_LimitesofficiellesdeBujumbura_7(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(String(feature.properties['OBJECTID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>admin0Name</strong><br />' + (feature.properties['admin0Name'] !== null ? autolinker.link(String(feature.properties['admin0Name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['admin0Pcod'] !== null ? autolinker.link(String(feature.properties['admin0Pcod']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['date'] !== null ? autolinker.link(String(feature.properties['date']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['validOn'] !== null ? autolinker.link(String(feature.properties['validOn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ValidTo'] !== null ? autolinker.link(String(feature.properties['ValidTo']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>Communes</strong><br />' + (feature.properties['Communes'] !== null ? autolinker.link(String(feature.properties['Communes']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Admin2PCOD'] !== null ? autolinker.link(String(feature.properties['Admin2PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Admin2PC_1'] !== null ? autolinker.link(String(feature.properties['Admin2PC_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>Provinces</strong><br />' + (feature.properties['Provinces'] !== null ? autolinker.link(String(feature.properties['Provinces']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Admin1PCOD'] !== null ? autolinker.link(String(feature.properties['Admin1PCOD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(String(feature.properties['Shape_Leng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(String(feature.properties['Shape_Area']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
-        }
-
-        function style_LimitesofficiellesdeBujumbura_7_0() {
-            return {
-                pane: 'pane_LimitesofficiellesdeBujumbura_7',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(249,235,107,1.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_LimitesofficiellesdeBujumbura_7');
-        map.getPane('pane_LimitesofficiellesdeBujumbura_7').style.zIndex = 407;
-        map.getPane('pane_LimitesofficiellesdeBujumbura_7').style['mix-blend-mode'] = 'normal';
-        var layer_LimitesofficiellesdeBujumbura_7 = new L.geoJson(json_LimitesofficiellesdeBujumbura_7, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_LimitesofficiellesdeBujumbura_7',
-            layerName: 'layer_LimitesofficiellesdeBujumbura_7',
-            pane: 'pane_LimitesofficiellesdeBujumbura_7',
-            onEachFeature: pop_LimitesofficiellesdeBujumbura_7,
-            style: style_LimitesofficiellesdeBujumbura_7_0,
-        });
-        bounds_group.addLayer(layer_LimitesofficiellesdeBujumbura_7);
-        map.addLayer(layer_LimitesofficiellesdeBujumbura_7);
+        bounds_group.addLayer(layer_FrontireTANGANYIKA_6);
+        map.addLayer(layer_FrontireTANGANYIKA_6);
         var overlaysTree = [
-            {label: '<img src="legend/LimitesofficiellesdeBujumbura_7.png" /> Limites officielles de Bujumbura', layer: layer_LimitesofficiellesdeBujumbura_7},
-            {label: '<img src="legend/Tendancedextensionspontane_6.png" /> Tendance d\'extension spontanée', layer: layer_Tendancedextensionspontane_6},
-            {label: '<img src="legend/BURUNDI_LACS_5.png" /> BURUNDI_LACS', layer: layer_BURUNDI_LACS_5},
-            {label: '<img src="legend/PROV_BURUNDI_4.png" /> PROV_BURUNDI', layer: layer_PROV_BURUNDI_4},
-            {label: '<img src="legend/ReservedelaRUSIZI_3.png" /> Reserve de la RUSIZI', layer: layer_ReservedelaRUSIZI_3},
-            {label: '<img src="legend/TANGANYIKABujumbura_2.png" /> TANGANYIKA-Bujumbura', layer: layer_TANGANYIKABujumbura_2},
-            {label: "OSM Standard", layer: layer_OSMStandard_1, radioGroup: 'bm' },
-            {label: '<img src="legend/TANGANYIKABURUNDI_0.png" /> TANGANYIKABURUNDI', layer: layer_TANGANYIKABURUNDI_0},]
+            {label: '<img src="legend/FrontireTANGANYIKA_6.png" /> Frontire TANGANYIKA', layer: layer_FrontireTANGANYIKA_6},
+            {label: '<img src="legend/Waterways_5.png" /> Water ways', layer: layer_Waterways_5},
+            {label: '<img src="legend/Courbedeniveau_4.png" /> Courbe de niveau', layer: layer_Courbedeniveau_4},
+            {label: '<img src="legend/LimitesofficiellesdeBujumbura_3.png" /> Limites officielles de Bujumbura', layer: layer_LimitesofficiellesdeBujumbura_3},
+            {label: '<img src="legend/Tendancedexpansionspontane_2.png" /> Tendance d\'expansion spontanée', layer: layer_Tendancedexpansionspontane_2},
+            {label: '<img src="legend/TANGANYIKABujumbura_1.png" /> TANGANYIKA-Bujumbura', layer: layer_TANGANYIKABujumbura_1},
+            {label: "ESRI Topo", layer: layer_ESRITopo_0, radioGroup: 'bm' },]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
             //selectorBack: false,
@@ -808,12 +781,12 @@
         lay.addTo(map);
         setBounds();
         var i = 0;
-        layer_TANGANYIKABURUNDI_0.eachLayer(function(layer) {
+        layer_TANGANYIKABujumbura_1.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_TANGANYIKABURUNDI_0'});
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #323232; font-size: 15pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_TANGANYIKABujumbura_1'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
@@ -821,12 +794,12 @@
               i++;
         });
         var i = 0;
-        layer_TANGANYIKABujumbura_2.eachLayer(function(layer) {
+        layer_LimitesofficiellesdeBujumbura_3.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #323232; font-size: 15pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_TANGANYIKABujumbura_2'});
+            layer.bindTooltip((layer.feature.properties['Communes'] !== null?String('<div style="color: #323232; font-size: 15pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Communes']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_LimitesofficiellesdeBujumbura_3'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
@@ -834,12 +807,12 @@
               i++;
         });
         var i = 0;
-        layer_ReservedelaRUSIZI_3.eachLayer(function(layer) {
+        layer_Waterways_5.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #323232; font-size: 13pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_ReservedelaRUSIZI_3'});
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Waterways_5'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
@@ -847,63 +820,27 @@
               i++;
         });
         var i = 0;
-        layer_PROV_BURUNDI_4.eachLayer(function(layer) {
+        layer_FrontireTANGANYIKA_6.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['PROVINCES'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Arial Black\', sans-serif;">' + layer.feature.properties['PROVINCES']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PROV_BURUNDI_4'});
+            layer.bindTooltip((layer.feature.properties['Nom'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Nom']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_FrontireTANGANYIKA_6'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
               addLabel(layer, i);
               i++;
         });
-        var i = 0;
-        layer_Tendancedextensionspontane_6.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['Communes'] !== null?String('<div style="color: #323232; font-size: 15pt; font-weight: bold; font-family: \'Arial Black\', sans-serif;">' + layer.feature.properties['Communes']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Tendancedextensionspontane_6'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-        var i = 0;
-        layer_LimitesofficiellesdeBujumbura_7.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['Communes'] !== null?String('<div style="color: #323232; font-size: 15pt; font-weight: bold; font-family: \'Arial Black\', sans-serif;">' + layer.feature.properties['Communes']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_LimitesofficiellesdeBujumbura_7'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-        map.addControl(new L.Control.Search({
-            layer: layer_TANGANYIKABujumbura_2,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'other_tags'}));
-        if (typeof url === 'undefined') {
-            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
-        } else {
-            document.getElementsByClassName('search-button')[1].className += ' fa fa-binoculars';
-        }
-        resetLabels([layer_TANGANYIKABURUNDI_0,layer_TANGANYIKABujumbura_2,layer_ReservedelaRUSIZI_3,layer_PROV_BURUNDI_4,layer_Tendancedextensionspontane_6,layer_LimitesofficiellesdeBujumbura_7]);
+        resetLabels([layer_TANGANYIKABujumbura_1,layer_LimitesofficiellesdeBujumbura_3,layer_Waterways_5,layer_FrontireTANGANYIKA_6]);
         map.on("zoomend", function(){
-            resetLabels([layer_TANGANYIKABURUNDI_0,layer_TANGANYIKABujumbura_2,layer_ReservedelaRUSIZI_3,layer_PROV_BURUNDI_4,layer_Tendancedextensionspontane_6,layer_LimitesofficiellesdeBujumbura_7]);
+            resetLabels([layer_TANGANYIKABujumbura_1,layer_LimitesofficiellesdeBujumbura_3,layer_Waterways_5,layer_FrontireTANGANYIKA_6]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer_TANGANYIKABURUNDI_0,layer_TANGANYIKABujumbura_2,layer_ReservedelaRUSIZI_3,layer_PROV_BURUNDI_4,layer_Tendancedextensionspontane_6,layer_LimitesofficiellesdeBujumbura_7]);
+            resetLabels([layer_TANGANYIKABujumbura_1,layer_LimitesofficiellesdeBujumbura_3,layer_Waterways_5,layer_FrontireTANGANYIKA_6]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer_TANGANYIKABURUNDI_0,layer_TANGANYIKABujumbura_2,layer_ReservedelaRUSIZI_3,layer_PROV_BURUNDI_4,layer_Tendancedextensionspontane_6,layer_LimitesofficiellesdeBujumbura_7]);
+            resetLabels([layer_TANGANYIKABujumbura_1,layer_LimitesofficiellesdeBujumbura_3,layer_Waterways_5,layer_FrontireTANGANYIKA_6]);
         });
         </script>        
     </body>
